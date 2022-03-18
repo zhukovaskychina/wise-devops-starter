@@ -1,1 +1,1 @@
-# wise-classloader
+# wise-devops-starter
