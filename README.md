@@ -91,7 +91,7 @@ devops:
 ### 一个例子
    [hrms 拓展例子](https://github.com/zhukovaskychina/hrms-demo.git)
 
-##### 截图说明
+##### service接口替换效果演示
 ###### 标品库中，LoginService原有的实现接口
   ![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_production.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_production.png?raw=true)
 
@@ -104,6 +104,14 @@ devops:
 ###### postman返回效果
 ![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_service_swap_result1.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_service_swap_result1.png?raw=true)
 
+##### controller接口二次开发覆盖
+###### 标品库中，/index/login原有的实现以及调用效果
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_rest.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_rest.png?raw=true)
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_origin.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_origin.png?raw=true)
+###### 定制化库，/index/login改造的实现
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_rest_ext.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_rest_ext.png?raw=true)
+
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_replace.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_replace.png?raw=true)
 
 ### RoadMap
 - [X] 支持不同硬盘路径，同一ClassPath路径
