@@ -4,6 +4,12 @@
 Spring Context加载。
 
 
+##### 场景：
+1，标品库为定型了的产品，定制化库为用户二次开发。
+比如标准产品库使用的rabbit-mq，用户需要将rabbit-mq替换为rocket-mq客户端。在不破坏标品库代码的情况下，用户只要根据相关Spring的规范，实现相关代码逻辑即可。
+
+2，比如标品库的某个接口，用户需要二次开发，增强原有的接口功能，不更改标品库的代码，只需要引入wise-devops-spring-boot-starter,做好相关配置即可，在定制化库中
+实现原有接口的增强逻辑。
 
 
 ### 如何使用
@@ -83,7 +89,7 @@ devops:
 ```
 
 ### 一个例子
--[ ]
+   [hrms 拓展例子](https://github.com/zhukovaskychina/hrms-demo.git)
 
 
 
