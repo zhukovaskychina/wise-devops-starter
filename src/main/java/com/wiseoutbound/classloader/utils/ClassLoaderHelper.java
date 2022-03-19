@@ -53,7 +53,6 @@ public class ClassLoaderHelper {
                     urlList.add(file.toURI().toURL());
                 }
 
-
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
