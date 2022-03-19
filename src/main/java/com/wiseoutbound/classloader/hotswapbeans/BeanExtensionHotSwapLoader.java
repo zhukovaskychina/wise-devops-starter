@@ -23,7 +23,7 @@ import java.util.Properties;
 import java.util.jar.JarFile;
 
 /****
- * SPI ExtensionLoader 加载本地classpath上面的接口实现类型，用于替代
+ * BeanExtensionHotSwapLoader 加载本地classpath上面的接口实现类型，用于替代
  * 原先定义接口的bean的类实现，比如service层面的更改，
  * 暂时不支持对ORM层面的更改
  * ******/
@@ -40,10 +40,6 @@ public class BeanExtensionHotSwapLoader implements ApplicationContextAware {
         this.finalProperties = new Properties();
     }
 
-    private static ClassLoader findSpringBeanFactoryClassLoader() {
-        return DefaultListableBeanFactory.class.getClassLoader();
-    }
-
     /**
      * 将dir下面的jar包注册到classpath中，并且实现类加载和注册
      **/
@@ -52,11 +48,11 @@ public class BeanExtensionHotSwapLoader implements ApplicationContextAware {
             return;
         }
         this.dir = dir;
-        logger.info("=========>begin to register" + dir + "jar");
+        logger.info("=========>begin to register" + dir + "");
         synchronized (this) {
             loadMetaSpiProps();
         }
-        logger.info("=========>end to register" + dir + "jar");
+        logger.info("=========>end to register" + dir + "");
     }
 
     /****
@@ -76,6 +72,7 @@ public class BeanExtensionHotSwapLoader implements ApplicationContextAware {
 
 
     public void hotSwapBeans() {
+        int cnt=0;
         for (Map.Entry<Object, Object> obj : this.finalProperties.entrySet()) {
             if (obj.getKey() instanceof String) {
                 String originName = (String) obj.getKey();
@@ -101,11 +98,14 @@ public class BeanExtensionHotSwapLoader implements ApplicationContextAware {
 
                     getRegistry().registerBeanDefinition(originName, originBeanDefinition);
                     getRegistry().registerBeanDefinition(replaceName, replaceBeanDefinition);
+
+                    cnt++;
                 }
 
             }
 
         }
+        logger.info("We have swapped "+ cnt+ " pairs of beans");
     }
 
     public BeanDefinitionRegistry getRegistry() {

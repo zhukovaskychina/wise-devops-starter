@@ -2,11 +2,15 @@ package com.wiseoutbound.autoconfigure;
 
 import com.wiseoutbound.classloader.hotswapbeans.BeanExtensionHotSwapLoader;
 import com.wiseoutbound.postprocessor.AutowiredStrengthenAnnotationBeanPostProcessor;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 
 @Configuration
+@Role(RootBeanDefinition.ROLE_INFRASTRUCTURE)
 public class WiseDevOpsAutoConfigure {
+
 
     @Bean
     public BeanExtensionHotSwapLoader getBeanExtensionHotSwapLoader() {
@@ -18,4 +22,5 @@ public class WiseDevOpsAutoConfigure {
     public AutowiredStrengthenAnnotationBeanPostProcessor getAutowiredStrengthenAnnotationBeanPostProcessor() {
         return new AutowiredStrengthenAnnotationBeanPostProcessor();
     }
+
 }

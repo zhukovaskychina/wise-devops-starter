@@ -7,6 +7,7 @@ public class ThreadLocalUtils {
 
     private static final ThreadLocal<Properties> threadLocal = new ThreadLocal<>();
 
+
     public static Properties getDevopsProperties() {
         return threadLocal.get();
     }
@@ -14,4 +15,6 @@ public class ThreadLocalUtils {
     public static void setDevopsProperties(Properties properties) {
         threadLocal.set(properties);
     }
+
+
 }

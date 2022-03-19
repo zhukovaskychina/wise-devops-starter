@@ -25,17 +25,13 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
+import static com.wiseoutbound.consts.SystemParams.*;
+
 @Slf4j
 public class SpringBootDevOpsApplication {
 
 
-    private static final String DEVOPS_URL = "devops.customDir";
 
-    private static final String SCANPACKAGE = "devops.scanPackage";
-
-    private static final String ENABLE_DEVOPS_MODE = "devops.enable";
-
-    private static final String PROFILE_ACTIVE = "spring.profiles.active";
 
     public static ConfigurableApplicationContext run(Class<?> primarySource, String[] args) {
         Properties devOpsProperties = null;
@@ -71,21 +67,25 @@ public class SpringBootDevOpsApplication {
 
         ConfigurableApplicationContext context = (ConfigurableApplicationContext) ReflectionUtils.invoke(runMethod, primarySource, args);
 
-        log.info("Now,we have started the dynamic devops mode successfully!");
 
-        log.info("Now,we have started spring beans hotswap phase");
 
-        BeanExtensionHotSwapLoader beanExtensionHotSwapLoader = context.getBean(BeanExtensionHotSwapLoader.class);
-
-        try {
-            beanExtensionHotSwapLoader.register(devOpsProperties.getProperty(DEVOPS_URL));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (Boolean.parseBoolean(devOpsProperties.getProperty(ENABLE_BEAN_SWAP))){
+            log.warn("你开启了试验性质的Bean替换模式，如果有bug，请在客制化代码中接口实现类使用注解@Primary修饰你的类");
+            log.info("Now,we have started the dynamic devops mode successfully!");
+            log.info("Now,we have started spring beans hotswap phase");
+            BeanExtensionHotSwapLoader beanExtensionHotSwapLoader = context.getBean(BeanExtensionHotSwapLoader.class);
+            try {
+                beanExtensionHotSwapLoader.register(devOpsProperties.getProperty(DEVOPS_URL));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            synchronized (beanExtensionHotSwapLoader) {
+                beanExtensionHotSwapLoader.hotSwapBeans();
+            }
+            log.info("Now,spring beans hotswap successfully");
         }
-        synchronized (beanExtensionHotSwapLoader) {
-            beanExtensionHotSwapLoader.hotSwapBeans();
-        }
-        log.info("Now,spring beans hotswap successfully");
+
+
 
         return context;
     }
@@ -161,13 +161,23 @@ public class SpringBootDevOpsApplication {
 
     private static void checkProperties(Properties properties) throws NoSuchFieldException {
         if (!properties.containsKey(ENABLE_DEVOPS_MODE)) {
-            properties.setProperty(ENABLE_DEVOPS_MODE, "true");
+            properties.setProperty(ENABLE_DEVOPS_MODE, "false");
         }
+        if (!properties.containsKey(ENABLE_BEAN_SWAP)) {
+            properties.setProperty(ENABLE_BEAN_SWAP, "false");
+        }
+        if (!properties.containsKey(ENABLE_FILTER)) {
+            properties.setProperty(ENABLE_FILTER, "false");
+        }
+
         if (!properties.containsKey(DEVOPS_URL)) {
             properties.setProperty(DEVOPS_URL, "");
         }
         if (!properties.containsKey(SCANPACKAGE)) {
-            throw new NoSuchFieldException("There is no scanpackage config,please config this property value in your config files");
+            properties.setProperty(SCANPACKAGE,"");
+        }
+        if (!properties.containsKey(FILTER_SCAN_PACKAGE)) {
+            properties.setProperty(FILTER_SCAN_PACKAGE,"");
         }
     }
 
@@ -259,8 +269,18 @@ public class SpringBootDevOpsApplication {
             assert currentProperties.get(ENABLE_DEVOPS_MODE) instanceof Boolean;
             properties.setProperty(ENABLE_DEVOPS_MODE, currentProperties.getProperty(ENABLE_DEVOPS_MODE));
         }
+        if (currentProperties.containsKey(ENABLE_BEAN_SWAP)) {
+            assert currentProperties.get(ENABLE_BEAN_SWAP) instanceof Boolean;
+            properties.setProperty(ENABLE_BEAN_SWAP, currentProperties.getProperty(ENABLE_BEAN_SWAP));
+        }
+        if (currentProperties.containsKey(ENABLE_FILTER)) {
+            assert currentProperties.get(ENABLE_FILTER) instanceof Boolean;
+            properties.setProperty(ENABLE_FILTER, currentProperties.getProperty(ENABLE_FILTER));
+        }
+        if (currentProperties.containsKey(FILTER_SCAN_PACKAGE)) {
+            properties.setProperty(FILTER_SCAN_PACKAGE, currentProperties.getProperty(FILTER_SCAN_PACKAGE));
+        }
         if (currentProperties.containsKey(PROFILE_ACTIVE)) {
-
             properties.setProperty(PROFILE_ACTIVE, currentProperties.getProperty(PROFILE_ACTIVE));
         }
     }
