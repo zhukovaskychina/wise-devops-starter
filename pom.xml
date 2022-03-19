@@ -10,7 +10,7 @@
     <groupId>io.github.zhukovaskychina</groupId>
     <artifactId>wise-devops-spring-boot-starter</artifactId>
     <url>https://github.com/zhukovaskychina/wise-devops-starter.git</url>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>jar</packaging>
     <description>devops starter 让spring boot实现模块化加载</description>
     <name>wise-devops-spring-boot-starter</name>
