@@ -91,7 +91,18 @@ devops:
 ### 一个例子
    [hrms 拓展例子](https://github.com/zhukovaskychina/hrms-demo.git)
 
+##### 截图说明
+###### 标品库中，LoginService原有的实现接口
+  ![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_production.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_production.png?raw=true)
 
+###### 二次开发，二次开发loginService接口，继承标品库的LoginService接口
+  ![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_ext_dev.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_ext_dev.png?raw=true)
+
+###### 测试效果
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_service_swap.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_service_swap.png?raw=true)
+
+###### postman返回效果
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_service_swap_result1.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/hrms_service_swap_result1.png?raw=true)
 
 
 ### RoadMap
