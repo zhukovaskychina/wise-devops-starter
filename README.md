@@ -24,7 +24,7 @@
 
 ##### Spring Bean PostProcessor
 
-![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-autowired.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-autowired.png?raw=true)
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring_autowired.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring_autowired.png?raw=true)
 
 #### Spring 
 ### 如何使用
