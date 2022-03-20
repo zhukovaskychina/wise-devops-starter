@@ -14,12 +14,23 @@
 
 
 ##### 技术实现
-待补充
+#####整体架构
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/archs.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/archs.png?raw=true)
+我们就是基于Classloader定制化，实现了不同硬盘路径同一classpath的jar加载，从而给标准产品增加了二次开发的可能。
 
+##### Spring Bean生命周期
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-beans1.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-beans1.png?raw=true)
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-beans2.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-beans2.png?raw=true)
+
+##### Spring Bean PostProcessor
+
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-autowired.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/spring-autowired.png?raw=true)
+
+#### Spring 
 ### 如何使用
-##### pom.xml的修改
+##### 1，pom.xml的修改
 在Spring Boot项目中pom.xml引入如下配置
-```
+```xml
     <dependency>
        <groupId>io.github.zhukovaskychina</groupId>
        <artifactId>wise-devops-spring-boot-starter</artifactId>
@@ -27,7 +38,7 @@
     </dependency>
 ```
 
-##### java代码修改
+##### 2，java代码修改
 在启动类中，将
 
 `
@@ -44,7 +55,7 @@ SpringBootDevOpsApplication.run(HrmsApplication.class,args);
 在启动类上增加如下配置，
 basePackage一定要配置正确，必须要和定制化库里的包名前缀要一致。
 
-```
+```java
 @SpringBootApplication
 @ComponentScan(basePackages ="com.zhukovasky",
 excludeFilters = {
@@ -54,7 +65,7 @@ excludeFilters = {
 ```
 最终效果如下：
 
-```
+```java
 @SpringBootApplication
 @ComponentScan(basePackages ="com.zhukovasky",
         excludeFilters = {
@@ -69,10 +80,10 @@ public class HrmsApplication {
 }
 ```
 
-##### 配置文件修改
+##### 3，配置文件修改
 
 application.yaml
-```
+```yaml
 
 # devops相关配置
 devops:
@@ -91,11 +102,19 @@ devops:
 
 
 ```
+##### 4，客制化代码
+![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/custom_ext_dev.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/custom_ext_dev.png?raw=true)
+在resources/META-INF下增加如下配置
+```properties
+loginServiceImpl=loginExtServiceImpl
+authCheckServiceImpl=authCheckExtServiceImpl
 
+```
+其他部分正常开发。
 ### 一个例子
    [hrms 拓展例子](https://github.com/zhukovaskychina/hrms-demo.git)
 
-##### service接口替换效果演示
+### service接口替换效果演示
 ###### 标品库中，LoginService原有的实现接口
   ![https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_production.png?raw=true](https://github.com/zhukovaskychina/wise-devops-starter/blob/main/pictures/img_production.png?raw=true)
 
@@ -122,4 +141,5 @@ devops:
 - [X] 支持定制化库定制service接口开发
 - [ ] 增加对Nacos和Apollo的支持
 - [ ] 增加对微服务的支持测试
+- [ ] 热部署
 
