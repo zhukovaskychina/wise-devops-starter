@@ -22,7 +22,6 @@ public class CustomerRestControllerFilter implements TypeFilter {
     private String[] scanPackageList;
 
     public CustomerRestControllerFilter(){
-        log.warn("你已经开启了定制化restController模式，这意味着你可以在定制化库中编写和原来一模一样的接口名，但是具体实现内容不同的代码");
         init();
     }
 
@@ -30,6 +29,9 @@ public class CustomerRestControllerFilter implements TypeFilter {
         this.properties=ThreadLocalUtils.getDevopsProperties();
         String enableFilter=properties.getProperty(ENABLE_FILTER);
         this.enableScanFilterPackage=Boolean.parseBoolean(enableFilter);
+        if (this.enableScanFilterPackage){
+            log.warn("你已经开启了定制化模式，这意味着你可以在定制化库中编写和原来一模一样的接口名或者Bean名字，但是具体实现内容不同的代码");
+        }
         String filterScanPackage=properties.getProperty(FILTER_SCAN_PACKAGE);
         String[] scanPackages=StringUtils.split(filterScanPackage,";");
         if (scanPackages==null){
