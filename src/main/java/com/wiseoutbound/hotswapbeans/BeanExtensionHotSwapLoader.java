@@ -2,6 +2,7 @@ package com.wiseoutbound.classloader.hotswapbeans;
 
 
 import com.wiseoutbound.classloader.utils.PropertiesUtils;
+import com.wiseoutbound.utils.DevOpsClassLoaderUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarFile;
@@ -59,10 +61,12 @@ public class BeanExtensionHotSwapLoader implements ApplicationContextAware {
      *
      * 加载META-INF下面的配置文件
      * **/
-    private void loadMetaSpiProps() throws IOException {
+    private void loadMetaSpiProps(String  skipListJars) throws IOException {
+        List<String> list=DevOpsClassLoaderUtils.getSkipJarList(skipListJars);
 
         Collection<File> jarListFiles = FileUtils.listFiles(new File(this.dir), new String[]{"jar"}, true);
         for (File currentJarFile : jarListFiles) {
+            if (DevOpsClassLoaderUtils.isInSkippedList(cu))
             JarFile jar = new JarFile(currentJarFile);
             Properties properties = PropertiesUtils.readPropertiesFromJar(jar, EXT_PROPERTIES);
             finalProperties.putAll(properties);
