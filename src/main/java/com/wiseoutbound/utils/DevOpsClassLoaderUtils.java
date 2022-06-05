@@ -1,4 +1,4 @@
-package com.wiseoutbound.classloader.utils;
+package com.wiseoutbound.utils;
 
 public class DevOpsClassLoaderUtils {
 

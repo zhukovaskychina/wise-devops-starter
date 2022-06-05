@@ -1,4 +1,4 @@
-package com.wiseoutbound.classloader.loader;
+package com.wiseoutbound.loader;
 
 import java.net.URL;
 import java.net.URLClassLoader;

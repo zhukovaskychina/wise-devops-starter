@@ -1,6 +1,6 @@
-package com.wiseoutbound.classloader.utils;
+package com.wiseoutbound.utils;
 
-import com.wiseoutbound.classloader.loader.DevOpsClassLoader;
+import com.wiseoutbound.loader.DevOpsClassLoader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 

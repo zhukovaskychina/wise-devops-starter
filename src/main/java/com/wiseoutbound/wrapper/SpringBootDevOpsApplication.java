@@ -1,10 +1,11 @@
-package com.wiseoutbound.classloader.wrapper;
+package com.wiseoutbound.wrapper;
 
 
 import com.wiseoutbound.classloader.hotswapbeans.BeanExtensionHotSwapLoader;
 import com.wiseoutbound.classloader.utils.DevOpsClassLoaderUtils;
-import com.wiseoutbound.classloader.utils.ReflectionUtils;
-import com.wiseoutbound.classloader.utils.ThreadLocalUtils;
+
+import com.wiseoutbound.utils.ReflectionUtils;
+import com.wiseoutbound.utils.ThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;

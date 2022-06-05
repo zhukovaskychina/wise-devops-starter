@@ -1,6 +1,6 @@
 package com.wiseoutbound.consts;
 
-public interface SystemParams {
+public interface    SystemParams {
 
     public static final String DEVOPS_URL = "devops.customDir";
 

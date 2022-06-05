@@ -1,4 +1,4 @@
-package com.wiseoutbound.classloader.utils;
+package com.wiseoutbound.utils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
