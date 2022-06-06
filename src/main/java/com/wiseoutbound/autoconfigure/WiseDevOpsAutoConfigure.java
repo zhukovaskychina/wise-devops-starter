@@ -14,8 +14,6 @@ import static com.wiseoutbound.consts.SystemParams.ENABLE_DEVOPS_MODE;
 @Role(RootBeanDefinition.ROLE_INFRASTRUCTURE)
 public class WiseDevOpsAutoConfigure {
 
-
-
     @Bean
     @ConditionalOnProperty(value=ENABLE_DEVOPS_MODE,havingValue = "true")
     public CustomDevopsBeanPostProcessor initCustomDevopsBeanPostProcessor(){
