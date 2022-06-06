@@ -27,6 +27,11 @@ public class ThreadLocalUtils {
         return threadLocalHotSwapBeanMap.get();
     }
 
+    public static void setThreadLocalHotSwapBeanMap(Map<String,String> innerMap){
+        threadLocalHotSwapBeanMap.set(innerMap);
+    }
+
+
     public static ThreadLocal<List<String>> getThreadLocalDisabledBeanList() {
         return threadLocalDisabledBeanList;
     }

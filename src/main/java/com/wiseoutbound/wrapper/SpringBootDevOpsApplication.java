@@ -1,9 +1,8 @@
 package com.wiseoutbound.wrapper;
 
 
-import com.wiseoutbound.classloader.hotswapbeans.BeanExtensionHotSwapLoader;
-import com.wiseoutbound.classloader.utils.DevOpsClassLoaderUtils;
-
+import com.wiseoutbound.hotswapbeans.BeanExtensionHotSwapLoader;
+import com.wiseoutbound.utils.DevOpsClassLoaderUtils;
 import com.wiseoutbound.utils.ReflectionUtils;
 import com.wiseoutbound.utils.ThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +24,7 @@ import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.wiseoutbound.consts.SystemParams.*;
 
@@ -55,7 +55,9 @@ public class SpringBootDevOpsApplication {
     public static ConfigurableApplicationContext runDevOps(Class<?> primarySource, String[] args, Properties devOpsProperties) {
 
 
-        ClassLoader devOpsClassLoader = DevOpsClassLoaderUtils.getClassLoader(devOpsProperties.getProperty(DEVOPS_URL));
+        String filterSkipJars=devOpsProperties.getProperty(FILTER_SCAN_PACKAGE);
+
+        ClassLoader devOpsClassLoader = DevOpsClassLoaderUtils.getClassLoader(devOpsProperties.getProperty(DEVOPS_URL),filterSkipJars);
 
         /**
          *
@@ -70,26 +72,41 @@ public class SpringBootDevOpsApplication {
 
 
 
-        if (Boolean.parseBoolean(devOpsProperties.getProperty(ENABLE_BEAN_SWAP))){
-            log.warn("你开启了试验性质的Bean替换模式，如果有bug，请在客制化代码中接口实现类使用注解@Primary修饰你的类");
-            log.info("Now,we have started the dynamic devops mode successfully!");
-            log.info("Now,we have started spring beans hotswap phase");
-            BeanExtensionHotSwapLoader beanExtensionHotSwapLoader = context.getBean(BeanExtensionHotSwapLoader.class);
-            try {
-                beanExtensionHotSwapLoader.register(devOpsProperties.getProperty(DEVOPS_URL));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            synchronized (beanExtensionHotSwapLoader) {
-                beanExtensionHotSwapLoader.hotSwapBeans();
-            }
-            log.info("Now,spring beans hotswap successfully");
-        }
-
-
-
         return context;
     }
+
+    static class PrepareDevops{
+        private static PrepareDevops instance;
+
+        private PrepareDevops() {
+
+        }
+        public static PrepareDevops getInstance() {
+            if(instance == null){
+                return new PrepareDevops();
+            }
+            return instance;
+        }
+
+        void prepare(Properties devopsProperties,String filterSkipJars){
+            if (Boolean.parseBoolean(devopsProperties.getProperty(ENABLE_BEAN_SWAP))){
+                log.warn("你开启了试验性质的Bean替换模式，如果有bug，请在客制化代码中接口实现类使用注解@Primary修饰你的类");
+                log.info("Now,we have started the dynamic devops mode successfully!");
+                log.info("Now,we have started spring beans hotswap phase");
+                BeanExtensionHotSwapLoader beanExtensionHotSwapLoader = new BeanExtensionHotSwapLoader();
+                try {
+                    beanExtensionHotSwapLoader.register(devopsProperties.getProperty(DEVOPS_URL),filterSkipJars);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                log.info("Now,spring beans hotswap successfully");
+            }else{
+                ThreadLocalUtils.setThreadLocalHotSwapBeanMap(new ConcurrentHashMap<>());
+            }
+        }
+    }
+
 
     public static Properties getDevOpsProperties() throws NoSuchFieldException {
         Properties properties = new Properties();
