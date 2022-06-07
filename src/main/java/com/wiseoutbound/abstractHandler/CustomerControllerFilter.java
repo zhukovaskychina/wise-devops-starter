@@ -1,6 +1,7 @@
 package com.wiseoutbound.abstractHandler;
 
-import com.wiseoutbound.classloader.utils.ThreadLocalUtils;
+
+import com.wiseoutbound.utils.ThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.type.classreading.MetadataReader;
@@ -15,18 +16,18 @@ import static com.wiseoutbound.consts.SystemParams.FILTER_SCAN_PACKAGE;
 
 
 @Slf4j
-public class CustomerRestControllerFilter implements TypeFilter {
+public class CustomerControllerFilter implements TypeFilter {
 
     Properties properties;
     private Boolean enableScanFilterPackage;
     private String[] scanPackageList;
 
-    public CustomerRestControllerFilter(){
+    public CustomerControllerFilter(){
         init();
     }
 
     private void init() {
-        this.properties=ThreadLocalUtils.getDevopsProperties();
+        this.properties= ThreadLocalUtils.getDevopsProperties();
         String enableFilter=properties.getProperty(ENABLE_FILTER);
         this.enableScanFilterPackage=Boolean.parseBoolean(enableFilter);
         if (this.enableScanFilterPackage){
